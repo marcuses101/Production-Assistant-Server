@@ -3,7 +3,7 @@ const { TOKEN_SECRET } = require("../config");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserRouter = express.Router();
-const userServices = require("./user-services");
+const {UserServices} = require("./user-services");
 
 UserRouter.route("/")
 
@@ -21,7 +21,7 @@ UserRouter.route("/")
           .json({ error: { message: "password required" } });
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      await userServices.addUser(req.app.get("db"), {
+      await UserServices.addUser(req.app.get("db"), {
         username,
         password: hashedPassword,
       });
@@ -38,7 +38,7 @@ UserRouter.route("/login").post(async (req, res, next) => {
       return res
         .status(400)
         .json({ error: { message: "username and password required" } });
-    const dbUser = await userServices.getUserByUsername(
+    const dbUser = await UserServices.getUserByUsername(
       req.app.get("db"),
       username
     );
