@@ -1,0 +1,24 @@
+GET http://localhost:8000/api/scene?project_id=3 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hcmN1c2VzMTAyIiwidXNlcl9pZCI6MiwiaWF0IjoxNjEzMjMyODI0fQ.WyvFIdARyYckRGolzxKP7Rkq-KsRVjq6-tRYA6eYcw0
+
+###
+
+POST http://localhost:8000/api/scene HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hcmN1c2VzMTAyIiwidXNlcl9pZCI6MiwiaWF0IjoxNjEzMjMyODI0fQ.WyvFIdARyYckRGolzxKP7Rkq-KsRVjq6-tRYA6eYcw0
+Content-Type: application/json
+
+{
+  "name": "Brand New Scene",
+  "description": "This is my new scene",
+  "project_id": 3
+}
+
+###
+PATCH http://localhost:8000/api/scene/16 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hcmN1c2VzMTAyIiwidXNlcl9pZCI6MiwiaWF0IjoxNjEzMjMyODI0fQ.WyvFIdARyYckRGolzxKP7Rkq-KsRVjq6-tRYA6eYcw0
+Content-Type: application/json
+
+{
+  "name": "Patch test"
+}
+

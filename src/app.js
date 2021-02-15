@@ -11,6 +11,7 @@ const { UserRouter } = require("./user/user-routes");
 const { authenticateToken } = require("./auth");
 const { ProjectRouter } = require("./project/project-routes");
 const { SceneRouter } = require("./scene/scene-routes");
+const { ItemRouter } = require("./item/item-routes");
 
 const morganOption = NODE_ENV === "production" ? "tiny" : "dev";
 app.use(express.json());
@@ -26,7 +27,7 @@ app.use("/api/user", UserRouter);
 app.use(authenticateToken);
 app.use("/api/project", ProjectRouter);
 app.use("/api/scene", SceneRouter);
-
+app.use("/api/item",ItemRouter);
 
 app.use((error, req, res, next) => {
   let response;
@@ -34,7 +35,7 @@ app.use((error, req, res, next) => {
     response = { error: { message: "server error" } };
   } else {
     console.log(error);
-    response = { message: error.message, error };
+    response = { error: { message: error } };
   }
   res.status(500).json(response);
 });

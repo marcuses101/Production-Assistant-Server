@@ -3,7 +3,7 @@ const ProjectServices = {
     return knex("projects")
       .join("user_project", "user_project.project_id", "projects.id")
       .where("user_project.user_id", user_id)
-      .select("projects.id", "projects.name", "projects.budget");
+      .select("projects.id", "projects.name", "projects.budget",'projects.description');
   },
 
   async getProjectById(knex, id) {

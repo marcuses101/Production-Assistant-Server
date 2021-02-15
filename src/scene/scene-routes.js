@@ -11,39 +11,87 @@ function serializeScene(scene) {
   };
 }
 
-SceneRouter.route("/").get(async (req, res, next) => {
-  try {
-    const { project_id } = req.query;
-    if (!project_id) {
-      return res
-        .status(400)
-        .json({ error: { message: "'project_id' query string required" } });
+SceneRouter.route("/")
+  .get(async (req, res, next) => {
+    try {
+      const { project_id } = req.query;
+      if (!project_id) {
+        return res
+          .status(400)
+          .json({ error: { message: "'project_id' query string required" } });
+      }
+      const scenes = await SceneServices.getProjectScenes(
+        req.app.get("db"),
+        project_id
+      );
+      res.json(scenes.map(serializeScene));
+    } catch (error) {
+      next(error);
     }
-    const scenes = await SceneServices.getProjectScenes(
-      req.app.get("db"),
-      project_id
-    );
-    res.json(scenes.map(serializeScene));
-  } catch (error) {
-    next(error);
-  }
-});
+  })
+  .post(async (req, res, next) => {
+    try {
+      const { name, description, project_id, shoot_date } = req.body;
+      const scene = { name, description, project_id };
+      for (const [key, value] of Object.entries(scene)) {
+        if (!value)
+          res.status(400).json({ error: { message: `${key} is required` } });
+      }
+      scene.shoot_date = shoot_date;
+      const databaseScene = await SceneServices.addScene(
+        req.app.get("db"),
+        scene
+      );
+      res
+        .location(`${req.baseUrl}/${databaseScene.id}`)
+        .json(serializeScene(databaseScene));
+    } catch (error) {
+      next(error);
+    }
+  });
 
-SceneRouter.route('/:scene_id')
-.all(async(req,res,next)=>{
-  try {
-    const {scene_id} =  req.params;
-    console.log({scene_id})
-    const scene = await SceneServices.getSceneById(req.app.get('db'),scene_id);
-    if (!scene) return res.status(404).json({error:{message:'scene not found'}})
-    req.scene = serializeScene(scene);
-    next()
-  } catch (error) {
-    next(error)
-  }
-})
-.get(async(req,res,next)=>{
-  res.json(req.scene)
-})
+SceneRouter.route("/:scene_id")
+  .all(async (req, res, next) => {
+    try {
+      const { scene_id } = req.params;
+      console.log({ scene_id });
+      const scene = await SceneServices.getSceneById(
+        req.app.get("db"),
+        scene_id
+      );
+      if (!scene)
+        return res.status(404).json({ error: { message: "scene not found" } });
+      req.scene = serializeScene(scene);
+      next();
+    } catch (error) {
+      next(error);
+    }
+  })
+  .get(async (req, res, next) => {
+    try {
+      res.json(req.scene);
+    } catch (error) {
+      next(error);
+    }
+  })
+  .patch(async(req,res,next) => {
+    try {
+      const {name,description,shoot_date} = req.body
+      const scene = {name,description,shoot_date}
+      if (!Object.values(scene).some(Boolean)) {
+        res.status(400).json({error:{message:'name, description, or shoot_date required'}})
+        return
+      }
+      const updatedScene = await SceneServices.updateScene(
+        req.app.get('db'),
+        req.scene.id,
+        scene
+      )
+      console.log(updatedScene)
+      res.json(updatedScene)
+    } catch (error) {
+      next(error)
+    }
+  })
 
 module.exports = { SceneRouter };

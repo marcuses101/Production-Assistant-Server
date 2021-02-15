@@ -1,0 +1,40 @@
+GET http://localhost:8000/api/item?project_id=1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hcmN1c2VzMTAyIiwidXNlcl9pZCI6MiwiaWF0IjoxNjEzMjMyODI0fQ.WyvFIdARyYckRGolzxKP7Rkq-KsRVjq6-tRYA6eYcw0
+
+###
+
+GET http://localhost:8000/api/item/5 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hcmN1c2VzMTAyIiwidXNlcl9pZCI6MiwiaWF0IjoxNjEzMjMyODI0fQ.WyvFIdARyYckRGolzxKP7Rkq-KsRVjq6-tRYA6eYcw0
+
+###
+
+POST http://localhost:8000/api/item HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hcmN1c2VzMTAyIiwidXNlcl9pZCI6MiwiaWF0IjoxNjEzMjMyODI0fQ.WyvFIdARyYckRGolzxKP7Rkq-KsRVjq6-tRYA6eYcw0
+Content-Type: application/json
+
+{
+  "project_id": 3,
+  "name": "Buster Sword",
+  "description": "A comically large sword",
+  "source": "SOLDIER",
+  "low_estimate": 5,
+  "high_estimate":500,
+  "quantity": 1
+}
+
+###
+
+PATCH  http://localhost:8000/api/item/4 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hcmN1c2VzMTAyIiwidXNlcl9pZCI6MiwiaWF0IjoxNjEzMjMyODI0fQ.WyvFIdARyYckRGolzxKP7Rkq-KsRVjq6-tRYA6eYcw0
+Content-Type: application/json
+
+{
+  "name": "Test update"
+}
+
+###
+
+DELETE http://localhost:8000/api/item/4 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hcmN1c2VzMTAyIiwidXNlcl9pZCI6MiwiaWF0IjoxNjEzMjMyODI0fQ.WyvFIdARyYckRGolzxKP7Rkq-KsRVjq6-tRYA6eYcw0
+
+
