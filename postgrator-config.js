@@ -4,7 +4,7 @@ module.exports = {
   "migrationsDirectory": "migrations",
   "driver": "pg",
   "password":"",
-   ssl: { rejectUnauthorized: false },
+  //  ssl: { rejectUnauthorized: false },
   "connectionString": (process.env.NODE_ENV === "test")
   ? process.env.TEST_DATABASE_URL
   : process.env.DATABASE_URL

@@ -43,12 +43,24 @@ ItemRouter.route("/")
           .json({ error: { message: "project_id and name are required" } });
       const item = {project_id,name,description, source, low_estimate,high_estimate,quantity}
       const databaseItem = await ItemServices.addItem(req.app.get('db'),item)
-      res.status(201).location().json(databaseItem);
+      res.status(201).location().json(serializeItem(databaseItem));
     } catch (error) {
       next(error);
     }
   });
 
-ItemRouter.route("/:item_id");
+ItemRouter.route("/:item_id")
+.all(async (req,res,next)=>{
+  try {
+    const {item_id} = req.params;
+    const item = await ItemServices.getItemById(
+      req.app.get("db"),
+      item_id
+    )
+  } catch (error) {
+    
+  }
+})
+;
 
 module.exports = { ItemRouter };
