@@ -1,4 +1,6 @@
-GET http://localhost:8000/api/item?project_id=1 HTTP/1.1
+
+
+GET http://localhost:8000/api/item?acquisition_id=3 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hcmN1c2VzMTAyIiwidXNlcl9pZCI6MiwiaWF0IjoxNjEzMjMyODI0fQ.WyvFIdARyYckRGolzxKP7Rkq-KsRVjq6-tRYA6eYcw0
 
 ###
@@ -24,12 +26,12 @@ Content-Type: application/json
 
 ###
 
-PATCH  http://localhost:8000/api/item/4 HTTP/1.1
+PATCH  http://localhost:8000/api/item/5 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hcmN1c2VzMTAyIiwidXNlcl9pZCI6MiwiaWF0IjoxNjEzMjMyODI0fQ.WyvFIdARyYckRGolzxKP7Rkq-KsRVjq6-tRYA6eYcw0
 Content-Type: application/json
 
 {
-  "name": "Test update"
+  "name": "Buster Sword"
 }
 
 ###

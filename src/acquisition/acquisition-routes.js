@@ -6,6 +6,10 @@ AcquisitionRouter.route("/")
   .get(async (req, res, next) => {
     try {
       const { project_id } = req.query;
+      if (!project_id)
+        res.status(400).json({
+          error: { message: `"project_id" query string is required` },
+        });
       const acquisitions = await AcquisitionServices.getProjectAcquisitions(
         req.app.get("db"),
         project_id
@@ -41,6 +45,7 @@ AcquisitionRouter.route("/:acquisition_id")
         req.app.get("db"),
         acquisition_id
       );
+      if (!acquisition) return res.status(400).json({error:{message: `acquisition with id '${acquisition_id}' does not exist`}})
       req.acquisition = acquisition;
       next();
     } catch (error) {
@@ -59,9 +64,18 @@ AcquisitionRouter.route("/:acquisition_id")
       const updatedAcquisition = await AcquisitionServices.updateAcquisition(
         req.app.get("db"),
         id,
-        {total_cost}
-      )
+        { total_cost }
+      );
       res.json(updatedAcquisition);
+    } catch (error) {
+      next(error);
+    }
+  })
+  .delete(async (req, res, next) => {
+    try {
+      const { id } = req.acquisition;
+      await AcquisitionServices.removeAcquisition(req.app.get("db"), id);
+      res.status(204).send();
     } catch (error) {
       next(error);
     }

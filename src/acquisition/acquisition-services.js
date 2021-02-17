@@ -20,6 +20,9 @@ const AcquisitionServices = {
         .returning(columns)
     )[0];
   },
+  removeAcquisition(knex, id) {
+    return knex("acquisitions").where({ id }).delete();
+  },
 };
 
 module.exports = { AcquisitionServices };
