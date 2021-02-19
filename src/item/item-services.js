@@ -35,7 +35,6 @@ const ItemServices = {
     return (await knex.into("items").insert(item).returning(columns))[0];
   },
   async updateItem(knex, id, item) {
-    console.log({ item, id });
     return (
       await knex("items").where({ id }).update(item).returning(columns)
     )[0];

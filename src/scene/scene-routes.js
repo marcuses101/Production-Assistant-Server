@@ -35,7 +35,7 @@ SceneRouter.route("/")
       const scene = { name, description, project_id };
       for (const [key, value] of Object.entries(scene)) {
         if (!value)
-          res.status(400).json({ error: { message: `${key} is required` } });
+        return res.status(400).json({ error: { message: `${key} is required` } });
       }
       scene.shoot_date = shoot_date;
       const databaseScene = await SceneServices.addScene(
@@ -54,7 +54,6 @@ SceneRouter.route("/:scene_id")
   .all(async (req, res, next) => {
     try {
       const { scene_id } = req.params;
-      console.log({ scene_id });
       const scene = await SceneServices.getSceneById(
         req.app.get("db"),
         scene_id
@@ -87,7 +86,6 @@ SceneRouter.route("/:scene_id")
         req.scene.id,
         scene
       )
-      console.log(updatedScene)
       res.json(updatedScene)
     } catch (error) {
       next(error)

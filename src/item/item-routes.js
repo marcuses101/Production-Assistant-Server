@@ -16,11 +16,17 @@ function serializeItem(item) {
 ItemRouter.route("/")
   .get(async (req, res, next) => {
     try {
-      const { project_id, acquisition_id } = req.query;
-      //XOR
-      if (!project_id === !acquisition_id)
+      const { project_id, acquisition_id, scene_id } = req.query;
+      const numberOfQueries = [project_id, acquisition_id, scene_id].reduce(
+        (total, current) => (current ? ++total : total),
+        0
+      );
+      if (numberOfQueries !== 1)
         return res.status(400).json({
-          error: { message: "project_id OR acquisition_id is required" },
+          error: {
+            message:
+              "ONE of 'project_id', 'acquisition_id', 'scene_id',  is required",
+          },
         });
       if (acquisition_id) {
         const items = await ItemServices.getAcquisitionItems(

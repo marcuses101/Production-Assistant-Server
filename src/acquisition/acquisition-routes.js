@@ -5,10 +5,12 @@ const { AcquisitionServices } = require("./acquisition-services");
 AcquisitionRouter.route("/")
   .get(async (req, res, next) => {
     try {
-      const { project_id } = req.query;
-      if (!project_id)
-        res.status(400).json({
-          error: { message: `"project_id" query string is required` },
+      const { project_id, scene_id } = req.query;
+      if (!project_id === !scene_id)
+        return res.status(400).json({
+          error: {
+            message: `'project_id' OR 'scene_id' query string is required`,
+          },
         });
       const acquisitions = await AcquisitionServices.getProjectAcquisitions(
         req.app.get("db"),
@@ -45,7 +47,12 @@ AcquisitionRouter.route("/:acquisition_id")
         req.app.get("db"),
         acquisition_id
       );
-      if (!acquisition) return res.status(400).json({error:{message: `acquisition with id '${acquisition_id}' does not exist`}})
+      if (!acquisition)
+        return res.status(400).json({
+          error: {
+            message: `acquisition with id '${acquisition_id}' does not exist`,
+          },
+        });
       req.acquisition = acquisition;
       next();
     } catch (error) {

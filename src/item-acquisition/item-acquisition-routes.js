@@ -35,7 +35,6 @@ ItemAcquisitionRouter.route("/")
       });
       res.status(204).send();
     } catch (error) {
-
       next(error);
     }
   });
