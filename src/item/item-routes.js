@@ -69,7 +69,10 @@ ItemRouter.route("/")
         quantity,
       };
       const databaseItem = await ItemServices.addItem(req.app.get("db"), item);
-      res.status(201).location().json(serializeItem(databaseItem));
+      res
+        .status(201)
+        .location(`${req.baseUrl}/${databaseItem.id}`)
+        .json(serializeItem(databaseItem));
     } catch (error) {
       next(error);
     }

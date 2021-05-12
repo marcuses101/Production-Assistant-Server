@@ -1,4 +1,7 @@
 const express = require("express");
+const {
+  ItemAcquisitionServices,
+} = require("../item-acquisition/item-acquisition-services");
 const AcquisitionRouter = express.Router();
 const { AcquisitionServices } = require("./acquisition-services");
 
@@ -16,6 +19,18 @@ AcquisitionRouter.route("/")
         req.app.get("db"),
         project_id
       );
+      const itemAcquisitions = await ItemAcquisitionServices.getProjectEntries(
+        req.app.get("db"),
+        project_id
+      );
+      acquisitions.map((acquisition) => {
+        acquisition.items = itemAcquisitions.reduce((items, object) => {
+          return object.acquisition_id === acquisition.id
+            ? [...items, object.item_id]
+            : items;
+        }, []);
+        return acquisition;
+      });
       res.json(acquisitions);
     } catch (error) {
       next(error);
@@ -25,6 +40,7 @@ AcquisitionRouter.route("/")
     try {
       const { project_id, total_cost } = req.body;
       const acquisition = { project_id, total_cost };
+      console.log(req.body)
       if (!Object.values(acquisition).some(Boolean))
         return res.status(400).json({
           error: { message: "project_id and total_cost are required" },

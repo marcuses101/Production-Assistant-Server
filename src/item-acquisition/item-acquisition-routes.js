@@ -3,6 +3,24 @@ const ItemAcquisitionRouter = express.Router();
 const { ItemAcquisitionServices } = require("./item-acquisition-services");
 
 ItemAcquisitionRouter.route("/")
+  .get(async (req, res, next) => {
+    try {
+      const { project_id } = req.query;
+      if (!project_id)
+        return res
+          .status(400)
+          .json({
+            error: { message: `'project_id' query string is required` },
+          });
+      const itemAcquisitions = await ItemAcquisitionServices.getProjectEntries(
+        req.app.get("db"),
+        project_id
+      );
+      res.json(itemAcquisitions);
+    } catch (error) {
+      next(error);
+    }
+  })
   .post(async (req, res, next) => {
     const { item_id, acquisition_id } = req.body;
     try {
@@ -17,7 +35,12 @@ ItemAcquisitionRouter.route("/")
       });
       res.status(201).json(entry);
     } catch (error) {
-      if (error.code === '23505') return res.status(400).json({error:{message:`item_id: ${item_id}, acquisition_id: ${acquisition_id} entry already exists.`}})
+      if (error.code === "23505")
+        return res.status(400).json({
+          error: {
+            message: `item_id: ${item_id}, acquisition_id: ${acquisition_id} entry already exists.`,
+          },
+        });
       next(error);
     }
   })
