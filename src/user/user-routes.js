@@ -8,8 +8,8 @@ const {UserServices} = require("./user-services");
 UserRouter.route("/")
 
   .post(async (req, res, next) => {
+    const { username, password } = req.body;
     try {
-      const { username, password } = req.body;
 
       if (!username)
         return res
@@ -25,8 +25,12 @@ UserRouter.route("/")
         username,
         password: hashedPassword,
       });
-      return res.status(201).send();
+      return res.status(201).json({message:'user created'});
     } catch (error) {
+      console.log('error code',error.code)
+      if (error.code == 23505){
+        return res.status(409).json({error:{message:`${username} already exist`}})
+      }
       next(error);
     }
   });

@@ -3,10 +3,9 @@ const columns = [
   "project_id as projectId",
   "name",
   "description",
-  "source",
-  "low_estimate as lowEstimate",
-  "high_estimate as highEstimate",
   "quantity",
+  'acquisition_id as acquisitionId',
+  'acquired'
 ];
 
 const ItemServices = {
@@ -15,8 +14,8 @@ const ItemServices = {
   },
   async getAcquisitionItems(knex, acquisition_id) {
     return knex("items")
-      .join("item_acquisition", { "items.id": "item_acquisition.item_id" })
-      .where("item_acquisition.acquisition_id", acquisition_id)
+      .join("acquisitions", { "items.acquisition_id": "acquisitions.id" })
+      .where("acquisitions.id", acquisition_id)
       .select(
         "items.id",
         "items.project_id as projectId",
@@ -25,7 +24,9 @@ const ItemServices = {
         "items.source",
         "items.low_estimate as lowEstimate",
         "items.high_estimate as highEstimate",
-        "items.quantity"
+        "items.quantity",
+        'items.acquisition_id as acquisitionId',
+        'items.acquired'
       );
   },
   async getItemById(knex, id) {

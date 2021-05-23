@@ -1,2 +1,3 @@
 ALTER TABLE items
-ADD COLUMN acquisition_id INTEGER REFERENCES acquisitions(id);
+ADD COLUMN acquisition_id INTEGER REFERENCES acquisitions(id) ON DELETE SET NULL,
+ADD COLUMN acquired BOOLEAN NOT NULL DEFAULT false;

@@ -14,7 +14,6 @@ const { SceneRouter } = require("./scene/scene-routes");
 const { ItemRouter } = require("./item/item-routes");
 const { AcquisitionRouter } = require("./acquisition/acquisition-routes");
 const {UserProjectRouter} = require('./user-project/user-project-router')
-const { ItemAcquisitionRouter } = require("./item-acquisition/item-acquisition-routes");
 
 const morganOption = NODE_ENV === "production" ? "tiny" : "dev";
 app.use(express.json());
@@ -32,7 +31,6 @@ app.use("/api/project", ProjectRouter);
 app.use("/api/scene", SceneRouter);
 app.use("/api/item",ItemRouter);
 app.use('/api/acquisition',AcquisitionRouter)
-app.use('/api/item-acquisition',ItemAcquisitionRouter)
 app.use('/api/user-project', UserProjectRouter)
 
 app.use((error, req, res, next) => {

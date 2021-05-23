@@ -50,9 +50,8 @@ ItemRouter.route("/")
         project_id,
         name,
         description,
-        source,
-        low_estimate,
-        high_estimate,
+        acquired,
+        acquisition_id,
         quantity,
       } = req.body;
       if (!project_id || !name)
@@ -63,9 +62,8 @@ ItemRouter.route("/")
         project_id,
         name,
         description,
-        source,
-        low_estimate,
-        high_estimate,
+        acquired,
+        acquisition_id,
         quantity,
       };
       const databaseItem = await ItemServices.addItem(req.app.get("db"), item);
@@ -102,24 +100,22 @@ ItemRouter.route("/:item_id")
       const {
         name,
         description,
-        source,
-        low_estimate,
-        high_estimate,
         quantity,
+        acquisition_id,
+        acquired
       } = req.body;
       const bodyItem = {
         name,
         description,
-        source,
-        low_estimate,
-        high_estimate,
         quantity,
+        acquisition_id,
+        acquired
       };
       if (!Object.values(bodyItem).some(Boolean)) {
         return res.status(400).json({
           error: {
             message:
-              "Minimum one of the following properties is required: name, description, source, low_estimate, high_estimate, quantity",
+              "Minimum one of the following properties is required: name, description, source, low_estimate, high_estimate, quantity, acquisition_id, acquired",
           },
         });
       }
