@@ -31,13 +31,13 @@ SceneRouter.route("/")
   })
   .post(async (req, res, next) => {
     try {
-      const { name, description, project_id, shoot_date } = req.body;
+      const { name, description, project_id, date } = req.body;
       const scene = { name, description, project_id };
       for (const [key, value] of Object.entries(scene)) {
         if (!value)
         return res.status(400).json({ error: { message: `${key} is required` } });
       }
-      scene.shoot_date = shoot_date;
+      scene.date = date;
       const databaseScene = await SceneServices.addScene(
         req.app.get("db"),
         scene
@@ -49,6 +49,38 @@ SceneRouter.route("/")
       next(error);
     }
   });
+
+SceneRouter.route('/item')
+  .post(async(req,res,next)=>{
+    try {
+      const {scene_id,item_id} = req.body
+      if (!scene_id || !item_id) {
+        return res.status(404).json({ error: { message:`"scene_id" and "item_id" required` } });
+      }
+      const entry = await SceneServices.addItemToScene(
+        req.app.get('db'),
+        {scene_id,item_id}
+      )
+      res.json(entry);
+    } catch (error) {
+      next(error)
+    }
+  })
+  .delete(async(req,res,next)=>{
+    try {
+      const {scene_id,item_id} = req.body
+      if (!scene_id || !item_id) {
+        return res.status(404).json({ error: { message:`"scene_id" and "item_id" required` } });
+      }
+      await SceneServices.addItemToScene(
+        req.app.get('db'),
+        {scene_id,item_id}
+      )
+      res.status(200).json({message:`scene_id: ${scene_id} item_id: ${item_id} deleted`})
+    } catch (error) {
+      next(error)
+    }
+  })
 
 SceneRouter.route("/:scene_id")
   .all(async (req, res, next) => {

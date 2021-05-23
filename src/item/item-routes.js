@@ -35,6 +35,13 @@ ItemRouter.route("/")
         );
         return res.json(items);
       }
+      if (scene_id) {
+        const items = await ItemServices.getSceneItems(
+          req.app.get('db'),
+          scene_id
+        );
+        return res.json(items);
+      }
       const items = await ItemServices.getProjectItems(
         req.app.get("db"),
         project_id

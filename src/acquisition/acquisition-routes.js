@@ -24,13 +24,11 @@ AcquisitionRouter.route("/")
   })
   .post(async (req, res, next) => {
     try {
-      const { project_id, total_cost } = req.body;
-      const acquisition = { project_id, total_cost };
-      console.log(req.body)
-      if (!Object.values(acquisition).some(Boolean))
-        return res.status(400).json({
-          error: { message: "project_id and total_cost are required" },
-        });
+      const { project_id, total, acquisition_type } = req.body;
+      const acquisition = { project_id, total, acquisition_type };
+      for (let [key,value] of Object.entries(acquisition)) {
+        if (!value) return res.status(400).json({error: {message:`"${key}" is required`}})
+      }
       const databaseAcquisition = await AcquisitionServices.addAcquisition(
         req.app.get("db"),
         acquisition
