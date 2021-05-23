@@ -72,7 +72,7 @@ SceneRouter.route('/item')
       if (!scene_id || !item_id) {
         return res.status(404).json({ error: { message:`"scene_id" and "item_id" required` } });
       }
-      await SceneServices.addItemToScene(
+      await SceneServices.removeItemFromScene(
         req.app.get('db'),
         {scene_id,item_id}
       )
@@ -107,12 +107,13 @@ SceneRouter.route("/:scene_id")
   })
   .patch(async(req,res,next) => {
     try {
-      const {name,description,shoot_date} = req.body
-      const scene = {name,description,shoot_date}
+      const {name,description,date} = req.body
+      const scene = {name,description,date}
       if (!Object.values(scene).some(Boolean)) {
         res.status(400).json({error:{message:'name, description, or shoot_date required'}})
         return
       }
+      scene.date = date;
       const updatedScene = await SceneServices.updateScene(
         req.app.get('db'),
         req.scene.id,

@@ -1,0 +1,2 @@
+ALTER TABLE acquisitions
+ALTER COLUMN date DROP DEFAULT;

@@ -1,0 +1,2 @@
+ALTER TABLE acquisitions
+ALTER COLUMN date SET DEFAULT NOW();
