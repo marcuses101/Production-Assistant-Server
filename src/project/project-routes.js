@@ -29,7 +29,11 @@ ProjectRouter.route("/")
   .post(async (req, res, next) => {
     try {
       const database = req.app.get("db");
-      const project = req.body;
+      const {name, description, budget} = req.body;
+      const project = {name,description,budget};
+      for (let [key,value] of Object.entries(project)) {
+        if (!value) return res.status(400).json({error:{message:`"${key} is required"`}})
+      }
       const databaseProject = await ProjectServices.addProject(
         database,
         project
@@ -38,7 +42,7 @@ ProjectRouter.route("/")
         user_id: req.user_id,
         project_id: databaseProject.id,
       });
-      res.json(databaseProject);
+      res.status(201).json(databaseProject);
     } catch (error) {
       next(error);
     }
@@ -71,6 +75,14 @@ ProjectRouter.route("/:project_id")
       res.json(updatedProject);
     } catch (error) {
       next(error);
+    }
+  })
+  .delete(async (req,res,next)=>{
+    try {
+      await ProjectServices.removeProject(req.app.get('db'),req.project.id)
+      res.status(200).json({message:`Project id:${req.project.id} removed`})
+    } catch (error) {
+      next(error)
     }
   });
 
