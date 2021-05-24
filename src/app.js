@@ -38,7 +38,7 @@ app.use((error, req, res, next) => {
     response = { error: { message: "server error" } };
   } else {
     console.log(error);
-    response = error;
+    response = {error};
   }
   res.status(500).json(response);
 });
