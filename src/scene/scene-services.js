@@ -46,7 +46,7 @@ const SceneServices = {
       .returning('*'))[0]
   },
   async removeItemFromScene(knex,{scene_id,item_id}){
-    return knex('scene_item')
+    return await knex('scene_item')
       .where({scene_id,item_id})
       .delete();
   }

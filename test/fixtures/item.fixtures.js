@@ -1,4 +1,4 @@
-function getItemsArray() {
+function makeItemsArray() {
   return [
     {
       name: "itemOne",
@@ -25,7 +25,15 @@ function getItemsArray() {
       acquisition_id: 1,
       acquired:true
     },
+    {
+      name: "itemFour",
+      description: "Cillum consectetur laboris nulla anim.",
+      project_id: 1,
+      quantity:25,
+      acquisition_id: 1,
+      acquired:true
+    },
   ];
 }
 
-module.exports = getItemsArray;
+module.exports = {makeItemsArray};
