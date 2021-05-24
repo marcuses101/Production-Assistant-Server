@@ -27,7 +27,6 @@ UserRouter.route("/")
       });
       return res.status(201).json({message:'user created'});
     } catch (error) {
-      console.log('error code',error.code)
       if (error.code == 23505){
         return res.status(409).json({error:{message:`${username} already exist`}})
       }

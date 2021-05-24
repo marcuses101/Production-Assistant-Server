@@ -70,7 +70,6 @@ SceneRouter.route('/item')
   .delete(async(req,res,next)=>{
     try {
       const {scene_id,item_id} = req.body
-      console.log({scene_id,item_id});
       if (!scene_id || !item_id) {
         return res.status(404).json({ error: { message:`"scene_id" and "item_id" required` } });
       }

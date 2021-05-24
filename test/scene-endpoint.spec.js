@@ -21,7 +21,7 @@ describe("scene endpoints", () => {
   let accessToken = {};
   function cleanup() {
     return db.raw(
-      "TRUNCATE users, projects, user_project, scenes, acquisition , items, scene_item RESTART IDENTITY CASCADE"
+      "TRUNCATE users, projects, user_project, scenes, acquisitions , items, scene_item RESTART IDENTITY CASCADE"
     );
   }
   async function populate() {

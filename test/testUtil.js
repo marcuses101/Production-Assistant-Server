@@ -1,4 +1,9 @@
 function assignIds(array) {
+
+  if (typeof array.map !== 'function') {
+    throw new Error(`TypeError: argument is ${typeof array}. Expected array`);
+  }
+
   return array.map((entry, index) => ({ ...entry, id: index + 1 }));
 }
 
@@ -21,6 +26,8 @@ function convertDate(obj, key="date") {
 }
 
 function convertDatesArray(array){
+
+
   return array.map(entry=>convertDate(entry));
 }
 

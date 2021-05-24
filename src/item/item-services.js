@@ -13,7 +13,15 @@ const ItemServices = {
     return knex.select(columns).where({ project_id }).from("items");
   },
   async getSceneItems(knex, scene_id) {
-    return knex.select(columns)
+    return knex.select(
+      "items.id",
+        "items.project_id as projectId",
+        "items.name",
+        "items.description",
+        "items.quantity",
+        'items.acquisition_id as acquisitionId',
+        'items.acquired'
+    )
       .from('items')
       .join('scene_item',{'scene_item.item_id':'items.id'})
       .where('scene_item.scene_id',scene_id)
@@ -27,9 +35,6 @@ const ItemServices = {
         "items.project_id as projectId",
         "items.name",
         "items.description",
-        "items.source",
-        "items.low_estimate as lowEstimate",
-        "items.high_estimate as highEstimate",
         "items.quantity",
         'items.acquisition_id as acquisitionId',
         'items.acquired'

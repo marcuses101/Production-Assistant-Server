@@ -4,12 +4,11 @@ const xss = require("xss");
 const ItemRouter = express.Router();
 
 function serializeItem(item) {
-  const { name, description, source } = item;
+  const { name, description } = item;
   return {
     ...item,
     name: xss(name),
     description: xss(description),
-    source: xss(source),
   };
 }
 
@@ -122,7 +121,7 @@ ItemRouter.route("/:item_id")
         return res.status(400).json({
           error: {
             message:
-              "Minimum one of the following properties is required: name, description, source, low_estimate, high_estimate, quantity, acquisition_id, acquired",
+              "Minimum one of the following properties is required: name, description, quantity, acquisition_id, acquired",
           },
         });
       }
@@ -140,7 +139,7 @@ ItemRouter.route("/:item_id")
     try {
       const { item_id } = req.params;
       await ItemServices.removeItem(req.app.get("db"), item_id);
-      res.status(204).send();
+      res.status(200).json({message:`item with id: ${item_id} removed`})
     } catch (error) {
       next(error);
     }
