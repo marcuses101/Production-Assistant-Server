@@ -4,7 +4,6 @@ const morgan = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 const { NODE_ENV } = require("./config");
-const logger = require("./logger");
 const app = express();
 
 const { UserRouter } = require("./user/user-routes");
@@ -39,7 +38,7 @@ app.use((error, req, res, next) => {
     response = { error: { message: "server error" } };
   } else {
     console.log(error);
-    response = { error: { message: 'server error',error } };
+    response = error;
   }
   res.status(500).json(response);
 });

@@ -27,7 +27,7 @@ UserProjectRouter.route("/")
         .json({ error: { message: "project_id and user_id are required" } });
     try {
       await UserProjectServices.removeEntry(req.app.get('db'),{user_id,project_id});
-      res.status(204).send();
+      res.status(200).json({message:`entry with user_id: ${user_id} and project_id: ${project_id} removed.`})
     } catch (error) {
       next(error);
     }
