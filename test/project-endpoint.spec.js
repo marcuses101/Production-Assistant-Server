@@ -5,6 +5,7 @@ const app = require("../src/app");
 const { makeUserArray } = require("./fixtures/user.fixtures");
 const { makeProjectArray } = require("./fixtures/project.fixtures");
 const { makeUserProjectArray } = require("./fixtures/user-project.fixtures");
+const { assignIds } = require("./testUtil");
 
 describe("project endpoints", () => {
   let db = {};
@@ -45,7 +46,7 @@ describe("project endpoints", () => {
       beforeEach(populate);
       afterEach(cleanup);
       it("responds with status 200 and projects associated to user", async () => {
-        const user = makeUserArray()[0];
+        const user = assignIds(makeUserArray())[0];
         const projects = await db.select("*").from("projects");
         const expectedProjects = makeUserProjectArray()
           .filter(({ user_id }) => user_id === user.id)
