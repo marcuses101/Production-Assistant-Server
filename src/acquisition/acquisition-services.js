@@ -1,4 +1,4 @@
-const columns = ["id", "project_id as projectId", "total"];
+const columns = ["id", "project_id as projectId", "total", "date", "acquisition_type as acquisitionType"];
 
 const AcquisitionServices = {
   getProjectAcquisitions(knex, project_id) {

@@ -25,10 +25,13 @@ function convertDate(obj, key="date") {
   return { ...obj, [key]: new Date(obj[key]).toISOString().split("T")[0] };
 }
 
-function convertDatesArray(array){
+function convertDatesArray(array, key){
 
+  if (typeof array.map !== 'function') {
+    throw new Error(`TypeError: argument is ${typeof array}. Expected array`);
+  }
 
-  return array.map(entry=>convertDate(entry));
+  return array.map(entry=>convertDate(entry,key));
 }
 
 module.exports = { assignIds, snakeToCamel, camelCaseKeys, convertDate, convertDatesArray };
