@@ -5,4 +5,4 @@ function makeSceneItemsArray(){
   ]
 }
 
-module.exports = makeSceneItemsArray;
+module.exports = {makeSceneItemsArray};

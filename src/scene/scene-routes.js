@@ -43,6 +43,7 @@ SceneRouter.route("/")
         scene
       );
       res
+        .status(201)
         .location(`${req.baseUrl}/${databaseScene.id}`)
         .json(serializeScene(databaseScene));
     } catch (error) {
@@ -69,6 +70,7 @@ SceneRouter.route('/item')
   .delete(async(req,res,next)=>{
     try {
       const {scene_id,item_id} = req.body
+      console.log({scene_id,item_id});
       if (!scene_id || !item_id) {
         return res.status(404).json({ error: { message:`"scene_id" and "item_id" required` } });
       }
@@ -120,6 +122,14 @@ SceneRouter.route("/:scene_id")
         scene
       )
       res.json(updatedScene)
+    } catch (error) {
+      next(error)
+    }
+  })
+  .delete(async(req,res,next)=>{
+    try {
+      await SceneServices.removeScene(req.app.get('db'),req.scene.id);
+      res.status(200).json({message:`scene id:${req.scene.id} removed`})
     } catch (error) {
       next(error)
     }

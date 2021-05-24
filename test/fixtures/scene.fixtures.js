@@ -31,4 +31,4 @@ function makeScenesArray() {
   ];
 }
 
-module.exports = makeScenesArray;
+module.exports = {makeScenesArray};

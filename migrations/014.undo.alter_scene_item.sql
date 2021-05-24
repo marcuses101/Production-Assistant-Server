@@ -1,0 +1,2 @@
+ALTER TABLE scene_item
+DROP COLUMN id;
