@@ -11,7 +11,7 @@ const { makeItemsArray } = require("./fixtures/item.fixtures");
 const { assignIds, camelCaseKeys } = require("./testUtil");
 const { makeAcquisitionsArray } = require("./fixtures/acquisition.fixtures");
 
-describe("scene endpoints", () => {
+describe("item endpoints", () => {
   let db = {};
   let accessToken = {};
   function cleanup() {
@@ -102,7 +102,7 @@ describe("scene endpoints", () => {
       afterEach(cleanup);
       it("responds with status 201 and adds the item", async () => {
         const newItem = {
-          name: "testScene",
+          name: "testItem",
           quantity: 50,
           description: "Do sint magna labore ex aute culpa do.",
           project_id: 1,
@@ -149,7 +149,7 @@ describe("scene endpoints", () => {
         const description = "new description";
         const expectedItem = {
           ...camelCaseKeys(
-            assignIds(makeItemsArray()).find((scene) => scene.id === id)
+            assignIds(makeItemsArray()).find((item) => item.id === id)
           ),
           description,
         };
